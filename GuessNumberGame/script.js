@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // random between 1 - 20
 let answerKey = generateAnswerKey();
@@ -11,12 +11,12 @@ function generateAnswerKey() {
   return Math.trunc(Math.random() * 20) + 1;
 } // end of generateAnswerKey
 
-document.querySelector(".btn-check").addEventListener("click", function () {
-  const input = document.querySelector(".guess").value;
+document.querySelector('.btn-check').addEventListener('click', function () {
+  const input = document.querySelector('.guess').value;
 
   if (!gameOver) {
     if (!input) {
-      document.querySelector(".message").textContent = "⛔ No Entry";
+      updateMessageText('⛔ No Entry');
       return;
     } // end if
 
@@ -32,37 +32,45 @@ function determineResult(guess) {
     if (highscore < currentscore) {
       highscore = currentscore;
 
-      document.querySelector(".highscore").textContent = highscore;
+      document.querySelector('.highscore').textContent = highscore;
       return true;
     } // end if
   } // end if
 
   if (guess > answerKey) {
-    document.querySelector(".message").textContent = "To High";
+    updateMessageText('To High');
   } else if (guess < answerKey) {
-    document.querySelector(".message").textContent = "To Low";
+    updateMessageText('To Low');
   } // end if
 
   if (currentscore > 0) {
     currentscore--;
-    document.querySelector(".score").textContent = currentscore;
+    updateScoreText(currentscore);
     return false;
   } else {
-    document.querySelector(".message").textContent = "You Lost the Game!";
+    updateMessageText('You Lost the Game!');
   } // end if
   return true;
-} // determineResult
+} // end of determineResult
+
+function updateMessageText(message) {
+  document.querySelector('.message').textContent = message;
+} // end of updateMessageText
+
+function updateNumberText(numberText) {
+  document.querySelector('.number').textContent = numberText;
+} // end of updateNubmerText
 
 function winContentsStyleUpdate() {
   // select the element we want to change
-  document.querySelector(".message").textContent = "🤘 Correct Number";
-  document.querySelector(".number").textContent = answerKey;
+  updateMessageText('🤘 Correct Number');
+  updateNumberText(answerKey);
   // change background to green on win
-  document.querySelector("body").style.backgroundColor = "#60b347";
-  document.querySelector(".number").style.width = "30rem";
+  updateBodyBackGround('#60b347');
+  updateNumberWidth('30rem');
 } // end of winContentsStyleUpdate
 
-document.querySelector(".btn-again").addEventListener("click", function () {
+document.querySelector('.btn-again').addEventListener('click', function () {
   resetGame();
 });
 
@@ -71,11 +79,24 @@ function resetGame() {
   gameOver = false;
   // generate new secret number
   answerKey = generateAnswerKey();
+
   // reset game board
-  document.querySelector(".score").textContent = currentscore = 20;
-  document.querySelector(".message").textContent = "Start guessing...";
-  document.querySelector("body").style.backgroundColor = "#222";
-  document.querySelector(".number").style.width = "15rem";
-  document.querySelector(".number").textContent = "?";
-  document.querySelector(".guess").value = "";
+  updateScoreText((currentscore = 20));
+  updateMessageText('Start guessing...');
+  updateBodyBackGround('#222');
+  updateNumberWidth('15rem');
+  updateNumberText('?');
+  document.querySelector('.guess').value = '';
 } // end of resetGame
+
+function updateScoreText(score) {
+  document.querySelector('.score').textContent = score;
+}
+
+function updateBodyBackGround(color) {
+  document.querySelector('body').style.backgroundColor = color;
+} // end of updateBodyBackGround
+
+function updateNumberWidth(width) {
+  document.querySelector('.number').style.width = width;
+}

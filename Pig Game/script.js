@@ -1,7 +1,5 @@
 'use strict';
 
-// game objects
-
 /** Game Player Objects  */
 const playerZero = {
   totalScoreElement: document.getElementById('score--0'),
@@ -19,19 +17,32 @@ const playerOne = {
 
 const dice = {
   diceElement: document.querySelector('.dice'),
-  hideDice() {
+  diceNum: 1,
+
+  showDice: function () {
+    this.diceElement.classList.remove('hidden');
+  },
+  hideDice: function () {
     this.diceElement.classList.add('hidden');
   }, // end hide dice
+  rollDice: function () {
+    this.diceNum = Math.trunc(Math.random() * 6 + 1);
+    this.updateImage();
+  },
+  updateImage: function () {
+    this.diceElement.src = `dice-${this.diceNum}.png`;
+  },
 }; // end of dice object
 
 /** Initial Game Loading Up */
-resetGame();
-
 /** Game Fuctions  */
 
 function resetGame() {
   resetScore(playerZero.totalScore, playerZero.totalScoreElement);
   resetScore(playerOne.totalScore, playerOne.totalScoreElement);
+
+  resetScore(playerZero.currentScore, playerZero.currentScoreElement);
+  resetScore(playerOne.currentScore, playerOne.currentScoreElement);
   dice.hideDice();
 } // end of resetGame
 
@@ -43,3 +54,19 @@ function resetScore(score, element) {
 function updateText(element, text) {
   element.textContent = text;
 } // end updateText
+
+/** Game Logic */
+
+const newGameButton = document.querySelector('.btn--new');
+
+const rollDiceButton = document.querySelector('.btn--roll');
+// game objects
+
+newGameButton.addEventListener('click', function () {
+  resetGame();
+});
+
+rollDiceButton.addEventListener('click', function () {
+  dice.rollDice();
+  dice.showDice();
+});

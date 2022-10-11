@@ -17,6 +17,13 @@ const playerOne = {
   currentSCore: 0,
 }; // playerOne Object
 
+const dice = {
+  diceElement: document.querySelector('.dice'),
+  hideDice() {
+    this.diceElement.classList.add('hidden');
+  }, // end hide dice
+}; // end of dice object
+
 /** Initial Game Loading Up */
 resetGame();
 
@@ -25,6 +32,7 @@ resetGame();
 function resetGame() {
   resetScore(playerZero.totalScore, playerZero.totalScoreElement);
   resetScore(playerOne.totalScore, playerOne.totalScoreElement);
+  dice.hideDice();
 } // end of resetGame
 
 function resetScore(score, element) {

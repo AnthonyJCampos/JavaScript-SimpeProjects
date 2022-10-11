@@ -24,3 +24,12 @@ for (let i = 0; i < btnsOpenModal.length; i++) {
 btnCloseModal.addEventListener('click', closeModal);
 
 overlay.addEventListener('click', closeModal);
+
+// you listen globally for a key event
+document.addEventListener('keydown', function (event) {
+  // check if Escape key was pressed
+  // and if modal is open
+  if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+    closeModal();
+  } // end if
+});

@@ -30,8 +30,57 @@ const restaurant = {
   /** Methods  */
   order: function (starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
-  },
+  }, // end order
+
+  orderDelivery: function ({ starterIndex, mainIndex, time, address }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    );
+  }, // end orderDelivery
 }; // end restaurant
+
+/** Object Destructoring ES6  */
+
+restaurant.orderDelivery({
+  time: '22:30',
+  address: '3044 Working Street, 99',
+  mainIndex: 2,
+  starterIndex: 2,
+});
+
+// we use curcly braces to destruct objects
+
+// should have the property names of the object
+let { name, openingHours, categories } = restaurant;
+console.log(name, openingHours, categories);
+
+// if we want the variables names to be different from the prop names
+
+const { name: restaurantName, openHours: hours, categories: tags } = restaurant;
+
+console.log(restaurant, hours, tags);
+
+// using default values with destructoring
+const { menu = [], starterMenu: starters = [] } = restaurant;
+console.log(menu, starters);
+
+// mutating variables
+
+let a = 111;
+let b = 999;
+const obj = { a: 23, b: 7, c: 14 };
+
+// we need parenthesis becuase JS expects a code block when its just curly braces
+({ a, b } = obj);
+
+console.log(a, b);
+
+// Nested objects within an object
+
+const {
+  fri: { open, close },
+} = openingHours; // please note this is an object we already grabbed in prev code
+console.log(open, close);
 
 /** Array Destructoring ES6 */
 
@@ -64,7 +113,11 @@ console.log(main, secondary);
 console.log(main, secondary);
 
 // Array Destructoring can be used to recieve an array from a method
-
 let [starter, mainCourse] = restaurant.order(2, 2);
-
 console.log(starter, mainCourse);
+
+// nested example
+const nested = [1, 2, [3, 4]];
+let [i, j, [k, t]] = nested;
+
+console.log(i, j, k, t);

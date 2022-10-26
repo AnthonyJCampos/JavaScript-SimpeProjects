@@ -37,6 +37,10 @@ const restaurant = {
       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
     );
   }, // end orderDelivery
+
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(`Here is your declicious pasta with ${ing1}, ${ing2}, ${ing3}`);
+  },
 }; // end restaurant
 
 /** Object Destructoring ES6  */
@@ -121,3 +125,55 @@ const nested = [1, 2, [3, 4]];
 let [i, j, [k, t]] = nested;
 
 console.log(i, j, k, t);
+
+/** Spread Operator:
+ * can only be used where we'd write value seperated by commas
+ * */
+
+const arr2 = [7, 8, 9];
+
+// arr3 becomes 1, 2, 7, 8, 9
+const arr3 = [1, 2, ...arr2];
+console.log(...arr3);
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu);
+
+// lets Copy an Array
+
+const mainMenuCopy = [...restaurant.mainMenu];
+
+// Join 2 array
+
+const joinedArray = [...restaurant.mainMenu, ...restaurant.starterMenu];
+
+console.log(...joinedArray);
+
+// works on iterables: arrays, strings, maps, sets. NOT objects
+
+// Strings Spread Operator
+
+const str = 'Anthony';
+const letters = [...str, ' ', 'C.'];
+console.log(letters);
+
+// using the Spread Operator with a method for a object
+
+/*
+const ingredients = [
+  prompt(`Let's make pasta!, Ingredient 1?`),
+  prompt(`Ingredient 2?`),
+  prompt(`Ingredient 3?`),
+];
+console.log(ingredients);
+restaurant.orderPasta(...ingredients);
+*/
+
+// Since ES2018 the spread operator works on objects
+const newRestaurant = { foundedIn: 1998, ...restaurant, founder: 'Anthony' };
+
+const restCopy = { ...restaurant };
+restCopy.name = `Papa's`;
+
+console.log(restaurant.name);
+console.log(restCopy.name);

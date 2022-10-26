@@ -177,3 +177,15 @@ restCopy.name = `Papa's`;
 
 console.log(restaurant.name);
 console.log(restCopy.name);
+
+/** Rest Pattern and Parameters */
+
+// REST, because on LEFT side of =
+const [c, d, ...others] = [1, 2, 3, 4, 5, 6, 7];
+
+console.log(a, b, others);
+
+// Objects
+
+const { sat, ...weekdays } = restaurant.openingHours;
+console.log(weekdays);

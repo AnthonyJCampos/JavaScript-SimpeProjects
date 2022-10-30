@@ -103,7 +103,6 @@ console.log(average2);
 //Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names 😉
 
 const teamOdds = Object.entries(game.odds);
-
 console.log(teamOdds);
 
 // use Optional Chaining

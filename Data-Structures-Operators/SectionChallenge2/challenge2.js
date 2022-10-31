@@ -108,7 +108,7 @@ console.log(teamOdds);
 // use Optional Chaining
 
 for (const [key, odd] of teamOdds) {
-  const text = key != 'x' ? 'victory' : 'draw:';
+  const text = key !== 'x' ? 'victory' : 'draw:';
   const teamName = ` ${game?.[key] ?? ''}`;
   console.log(`Odd of ${text}${teamName} ${odd}`);
 } // end for

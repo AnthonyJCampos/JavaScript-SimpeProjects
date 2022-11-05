@@ -41,3 +41,63 @@ greeterHello('Anthony');
 
 // this calls both in one line
 greet('Sup')('Marissa');
+
+/** the call and apply Methods */
+
+const alaska = {
+  airline: 'Alaska',
+  iataCode: 'AL',
+  booking: [],
+
+  // Enhanced Object Literal Syntax
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    );
+
+    this.booking.push({ flight: `${this.iataCode}${flightNum}`, name });
+  }, // end book
+};
+
+alaska.book(239, 'Marissa Campos');
+alaska.book(167, 'John Smith');
+
+console.log(alaska);
+
+const delta = {
+  airline: 'Delta',
+  iataCode: 'DA',
+  booking: [],
+}; // end delta
+
+/** CALL METHOD */
+// use the call to use the method from alaska with the detla object
+
+const book = alaska.book; // set the book variable to the book function
+
+book.call(delta, 666, 'Brandon Fo');
+console.log(delta);
+
+/** APPLY METHOD */
+
+// use apply to pass in a array; however, can use spreader operator now
+
+const flightData = [583, 'Alice Cooper'];
+book.apply(delta, flightData);
+
+// using spread operator instead
+const flightData2 = [953, 'Carl Carl'];
+book.call(delta, ...flightData2);
+console.log(delta);
+
+/** BIND METHOD does not immediately call the function,
+ * instead it returns a new function where 'this' keyword is bound
+ * Thus its set to whatever value we pas into bind
+ **/
+
+// creates a method with the this set to delta
+const bookDA = book.bind(delta);
+
+bookDA(654, 'Anthony Franics');
+
+console.log(delta);

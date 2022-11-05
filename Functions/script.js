@@ -101,3 +101,9 @@ const bookDA = book.bind(delta);
 bookDA(654, 'Anthony Franics');
 
 console.log(delta);
+
+// the below code finds the method to this (delta) and binds a balue to the first parm of the book method
+const bookDA23 = book.bind(delta, 23);
+
+bookDA23('Aaron Guy');
+bookDA23('Kirby Kirback');

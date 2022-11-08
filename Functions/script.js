@@ -109,3 +109,36 @@ bookDA23('Aaron Guy');
 bookDA23('Kirby Kirback');
 
 // With Event Listeners
+alaska.planes = 300;
+alaska.buyPlane = function () {
+  console.log(this);
+
+  this.planes++;
+  console.log(this.planes);
+}; // end buyPlane
+
+const buyPlaneALEvent = alaska.buyPlane.bind(alaska);
+document.querySelector('.buy').addEventListener('click', buyPlaneALEvent);
+
+// partial application, means we preset parms
+
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+// use null since there is no this key word in the method
+const addVAT = addTax.bind(null, 0.23);
+
+console.log(addVAT(200));
+console.log(addVAT(100));
+
+// simple challenge by instructor, solved
+
+function addTaxRate(rate) {
+  return function (value) {
+    return value + value * rate;
+  };
+}
+
+const test = addTaxRate(0.25);
+
+console.log(test(100));

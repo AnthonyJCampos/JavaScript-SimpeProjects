@@ -56,9 +56,9 @@ const poll = {
   },
 
   displayResults: function () {
-    document.querySelector('.results').textContent = `Poll results are ${[
-      ...this.answers,
-    ]}`;
+    document.querySelector(
+      '.results'
+    ).textContent = `Poll results are ${this.answers.join(', ')}`;
   },
 }; // end poll
 

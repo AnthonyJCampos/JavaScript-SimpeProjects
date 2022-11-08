@@ -40,8 +40,9 @@ const poll = {
   answers: new Array(4).fill(0),
 
   registerNewAnswer: function () {
-    const message =
-      'What is your favourite programming language?\n0: JavaScript\n1: Python2: Rust\n3: C++\n(Write option number)';
+    const message = `${this.question}\n${this.options.join(
+      '\n'
+    )}\n(Write option number)`;
     this.processInput(prompt(message));
   },
 

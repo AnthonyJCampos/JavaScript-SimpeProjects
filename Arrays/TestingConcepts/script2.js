@@ -10,3 +10,11 @@ const movementsUSD = movements.map(mov => Math.trunc(mov * eurToUSD));
 
 console.log(movements);
 console.log(movementsUSD);
+
+const stringArr = movements.map(function (mov, index) {
+  return `Movement ${
+    index + 1
+  }: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(mov)}`;
+});
+
+stringArr.forEach(str => console.log(str));

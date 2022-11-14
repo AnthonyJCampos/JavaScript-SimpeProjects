@@ -47,3 +47,15 @@ const balance = movements.reduce(function (preVal, curVal, curIndex) {
 }, 0);
 // the 0 is the init value, can be left out
 console.log(`Balance: ${balance}`);
+
+/** FIND METHOD */
+// The find() method returns the first element in the provided array that satisfies
+// the provided testing function. If no values satisfy the testing function,
+// undefined is returned.
+
+const names = ['Chris', 'Mike', 'Anthony', 'Carl', 'Aaron'];
+
+const myName = names.find(str => str === 'Anthony');
+
+console.log(myName);
+console.log(names.find(str => str === 'logan'));

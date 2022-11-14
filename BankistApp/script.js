@@ -61,22 +61,6 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-function displayMovements(movements, containerMovements) {
-  containerMovements.innerHTML = '';
-
-  movements.forEach(function (mov, index) {
-    const type = mov > 0 ? 'deposit' : 'withdrawal';
-    const html = `<div class="movements__row">
-      <div class="movements__type movements__type--${type}">${index + 1} ${type}
-      </div>
-          <div class="movements__value">${mov}</div>
-        </div>`;
-
-    containerMovements.insertAdjacentHTML('afterbegin', html);
-  });
-} // end displayMovements
-displayMovements(account1.movements, containerMovements);
-
 function createUsernames(accs) {
   accs.forEach(acc => {
     acc.username = acc.owner
@@ -87,6 +71,31 @@ function createUsernames(accs) {
   });
 } // end createUsernames
 
-createUsernames(accounts);
+function displayMovements(movements, containerMovements) {
+  containerMovements.innerHTML = '';
 
-console.log(accounts);
+  movements.forEach(function (mov, index) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const html = `<div class="movements__row">
+       <div class="movements__type movements__type--${type}">${
+      index + 1
+    } ${type}
+       </div>
+           <div class="movements__value">${mov}</div>
+         </div>`;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+} // end displayMovements
+
+function updateBalanceElement(account, element) {
+  element.textContent = `${calcBalance(account.movements)} USD`;
+} // end updateBalance
+
+function calcBalance(movements) {
+  return movements.reduce((prevVal, curVal) => prevVal + curVal, 0);
+} // end calcBalance
+
+displayMovements(account1.movements, containerMovements);
+
+updateBalanceElement(account1, labelBalance);

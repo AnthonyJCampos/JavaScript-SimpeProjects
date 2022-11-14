@@ -34,3 +34,16 @@ console.log(deposits);
 const withdrawals = movements.filter(mov => mov < 0);
 
 console.log(withdrawals);
+
+/** Reduce Method */
+// The reduce() method executes a user-supplied "reducer" callback function on each
+// element of the Array, in order, passing in the return value from the calculation
+// on the preceding element. The final esult of running the reducer across all
+// elements of the array is a single value.
+
+// preVal also known as the accumulator stores the value
+const balance = movements.reduce(function (preVal, curVal, curIndex) {
+  return preVal + curVal;
+}, 0);
+// the 0 is the init value, can be left out
+console.log(`Balance: ${balance}`);

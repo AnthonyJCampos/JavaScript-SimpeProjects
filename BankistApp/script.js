@@ -61,6 +61,8 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+/** create user names */
+
 function createUsernames(accs) {
   accs.forEach(acc => {
     acc.username = acc.owner
@@ -70,6 +72,67 @@ function createUsernames(accs) {
       .join('');
   });
 } // end createUsernames
+
+createUsernames(accounts);
+
+/** EVENT HANDLERS  */
+let currentAccount;
+
+btnLogin.addEventListener('click', function (event, targetAcc) {
+  // Prevent form from submitting
+  event.preventDefault();
+  currentAccount = processUserInput();
+  resetLoginFields();
+
+  if (currentAccount !== undefined) {
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner
+      .split(' ')
+      .at(0)}`;
+    containerApp.style.opacity = 100;
+    // Display movements
+    displayMovements(currentAccount.movements, containerMovements);
+    // Display Balance
+    updateBalanceElement(currentAccount, labelBalance);
+    // Display summary
+    updateDisplaySummary(
+      currentAccount,
+      labelSumIn,
+      labelSumOut,
+      labelSumInterest
+    );
+  } // end if
+}); // end login button event
+
+function processUserInput() {
+  const result = findUser(accounts, inputLoginUsername.value);
+
+  if (result !== undefined && checkPin(result, inputLoginPin.value)) {
+    // see if pin matches
+    return result;
+  } else {
+    // reset fields
+    //inputLoginUsername.value = '';
+    //inputLoginPin.value = '';
+
+    return undefined;
+  } // end if
+} // end processUserInput
+
+function findUser(accs, input) {
+  return accs.find(acc => acc.username === input);
+} // end findUser
+
+function checkPin(acc, input) {
+  return acc.pin === Number(input);
+} // end checkPin
+
+function resetLoginFields() {
+  inputLoginUsername.value = '';
+  inputLoginPin.value = '';
+} // end resetLoginFields
+
+/** OTHER FUNCTIONS */
 
 function displayMovements(movements, containerMovements) {
   containerMovements.innerHTML = '';
@@ -122,7 +185,3 @@ function calcSummaryInterest(movements, rate) {
     .filter(interest => interest >= 1)
     .reduce((acc, interest) => acc + interest, 0);
 } // end calcSummaryInterest
-
-displayMovements(account1.movements, containerMovements);
-updateDisplaySummary(account1, labelSumIn, labelSumOut, labelSumInterest);
-updateBalanceElement(account1, labelBalance);

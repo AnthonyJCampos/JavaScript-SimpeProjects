@@ -76,3 +76,17 @@ function displayMovements(movements, containerMovements) {
   });
 } // end displayMovements
 displayMovements(account1.movements, containerMovements);
+
+function createUsernames(accs) {
+  accs.forEach(acc => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(text => text.charAt(0))
+      .join('');
+  });
+} // end createUsernames
+
+createUsernames(accounts);
+
+console.log(accounts);

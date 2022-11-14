@@ -81,7 +81,7 @@ function displayMovements(movements, containerMovements) {
       index + 1
     } ${type}
        </div>
-           <div class="movements__value">${mov}</div>
+           <div class="movements__value">${mov}$</div>
          </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -96,6 +96,33 @@ function calcBalance(movements) {
   return movements.reduce((prevVal, curVal) => prevVal + curVal, 0);
 } // end calcBalance
 
-displayMovements(account1.movements, containerMovements);
+function updateDisplaySummary(account, elementIn, elementOut, elementInterest) {
+  elementIn.textContent = `${calcSummaryIn(account.movements)}$`;
+  elementOut.textContent = `${calcSummaryOut(account.movements)}$`;
+  elementInterest.textContent = `${calcSummaryInterest(
+    account.movements,
+    account.interestRate
+  )}$`;
+} // end updateDisplaySummary
 
+function calcSummaryIn(movements) {
+  return movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
+} // end calcDisplaySummary
+
+function calcSummaryOut(movements) {
+  return Math.abs(
+    movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)
+  );
+} // end calcSummaryOut
+
+function calcSummaryInterest(movements, rate) {
+  return movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * rate) / 100)
+    .filter(interest => interest >= 1)
+    .reduce((acc, interest) => acc + interest, 0);
+} // end calcSummaryInterest
+
+displayMovements(account1.movements, containerMovements);
+updateDisplaySummary(account1, labelSumIn, labelSumOut, labelSumInterest);
 updateBalanceElement(account1, labelBalance);

@@ -111,10 +111,6 @@ function processUserLoginInput() {
     // see if pin matches
     return result;
   } else {
-    // reset fields
-    //inputLoginUsername.value = '';
-    //inputLoginPin.value = '';
-
     return undefined;
   } // end if
 } // end processUserInput
@@ -131,6 +127,8 @@ function resetLoginFields() {
   inputLoginUsername.value = '';
   inputLoginPin.value = '';
 } // end resetLoginFields
+
+/** TRANSFER METHODS */
 
 btnTransfer.addEventListener('click', function (event) {
   event.preventDefault();
@@ -157,7 +155,59 @@ btnTransfer.addEventListener('click', function (event) {
 function resetTransferFields() {
   inputTransferAmount.value = '';
   inputTransferTo.value = '';
-}
+} // end resetTransferFields
+
+/** REQUEST LOAN METHODS */
+
+btnLoan.addEventListener('click', function (event) {
+  event.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0) {
+    const flag = currentAccount.movements.some(mov => mov > amount * 1.1);
+    // if true take out loan
+    if (flag) {
+      currentAccount.movements.push(amount);
+      calcBalance(currentAccount);
+      updateDisplay(currentAccount);
+    } // end if
+  } // end if
+
+  // reset field
+  inputLoanAmount.value = '';
+});
+
+/** CLOSE ACCOUNT METHODS */
+
+btnClose.addEventListener('click', function (event) {
+  event.preventDefault();
+
+  // confirm username and pin
+  const givenUsername = inputCloseUsername.value;
+  const givenPin = inputClosePin.value;
+
+  if (
+    currentAccount.username === givenUsername &&
+    currentAccount.pin === Number(givenPin)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+
+    if (index !== -1) {
+      accounts.splice(index, 1);
+      // Hide UI
+      containerApp.style.opacity = 0;
+    } // end if
+  } // end if
+
+  resetCloseAccountFields();
+});
+
+function resetCloseAccountFields() {
+  inputCloseUsername.value = '';
+  inputClosePin.value = '';
+} // end resetCloseAccountFields
 
 /** OTHER FUNCTIONS */
 

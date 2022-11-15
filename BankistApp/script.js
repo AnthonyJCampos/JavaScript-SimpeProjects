@@ -209,6 +209,16 @@ function resetCloseAccountFields() {
   inputClosePin.value = '';
 } // end resetCloseAccountFields
 
+/** SORT MOVEMENTS METHODS */
+
+// sorted state
+let sorted = false;
+btnSort.addEventListener('click', event => {
+  event.preventDefault();
+  displayMovements(currentAccount.movements, containerMovements, !sorted);
+  sorted = !sorted;
+});
+
 /** OTHER FUNCTIONS */
 
 function updateDisplay(currentAccount) {
@@ -225,10 +235,12 @@ function updateDisplay(currentAccount) {
   );
 } // end updateDisplay
 
-function displayMovements(movements, containerMovements) {
+function displayMovements(movements, containerMovements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, index) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, index) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
        <div class="movements__type movements__type--${type}">${

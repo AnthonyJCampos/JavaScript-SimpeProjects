@@ -48,6 +48,15 @@ const balance = movements.reduce(function (preVal, curVal, curIndex) {
 // the 0 is the init value, can be left out
 console.log(`Balance: ${balance}`);
 
+// use reduce to get max value in array
+const arr1 = [200, 450, -400, 3000, -650, -130, 70, 1300, 3000];
+
+const max = arr1.reduce(function (preVal, curVal) {
+  return preVal > curVal ? preVal : curVal;
+}, arr1[0]);
+
+console.log(max);
+
 /** FIND METHOD */
 // The find() method returns the first element in the provided array that satisfies
 // the provided testing function. If no values satisfy the testing function,
@@ -59,3 +68,15 @@ const myName = names.find(str => str === 'Anthony');
 
 console.log(myName);
 console.log(names.find(str => str === 'logan'));
+
+/** SORT METHOD */
+const arr2 = [200, 450, -400, 3000, -650, -130, 70, 1300, 3000];
+arr1.sort((a, b) => {
+  return a > b ? -1 : 1;
+});
+
+// can also be done with
+// Descending
+arr2.sort((a, b) => b - a);
+
+console.log(arr2);

@@ -100,3 +100,38 @@ function getRandomIntInclusive(min, max) {
 } // end randomInt
 
 console.log(getRandomIntInclusive(10, 20));
+
+/** Numeric Separators */
+
+// makes code more readable; however should only be done in code
+const diameter = 287_460_000_000;
+
+console.log(diameter); // 287460000000
+
+/** DATES */
+
+// create a date
+const now = new Date();
+console.log(now); //
+
+console.log(new Date(account1.movementsDates.at(0)));
+
+// working with dates
+
+const future = new Date(2037, 10, 19, 15, 23);
+
+console.log(future);
+
+console.log(future.getFullYear());
+console.log(future.getMonth());
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+console.log(future.toISOString());
+console.log(future.getTime());
+
+console.log(new Date(2142285780000));
+
+console.log(Date.now());

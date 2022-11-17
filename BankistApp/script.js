@@ -161,7 +161,7 @@ function resetTransferFields() {
 
 btnLoan.addEventListener('click', function (event) {
   event.preventDefault();
-  const amount = Number(inputLoanAmount.value);
+  const amount = Math.floor(Number(inputLoanAmount.value));
 
   if (amount > 0) {
     const flag = currentAccount.movements.some(mov => mov > amount * 1.1);
@@ -247,7 +247,7 @@ function displayMovements(movements, containerMovements, sort = false) {
       index + 1
     } ${type}
        </div>
-           <div class="movements__value">${mov}$</div>
+           <div class="movements__value">${mov.toFixed(2)}$</div>
          </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -255,7 +255,7 @@ function displayMovements(movements, containerMovements, sort = false) {
 } // end displayMovements
 
 function updateBalanceElement(account, element) {
-  element.textContent = `${account.balance} USD`;
+  element.textContent = `${account.balance.toFixed(2)} USD`;
 } // end updateBalance
 
 function updateDisplaySummary(account, elementIn, elementOut, elementInterest) {
@@ -268,13 +268,16 @@ function updateDisplaySummary(account, elementIn, elementOut, elementInterest) {
 } // end updateDisplaySummary
 
 function calcSummaryIn(movements) {
-  return movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0);
+  return movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0)
+    .toFixed(2);
 } // end calcDisplaySummary
 
 function calcSummaryOut(movements) {
   return Math.abs(
     movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)
-  );
+  ).toFixed(2);
 } // end calcSummaryOut
 
 function calcSummaryInterest(movements, rate) {
@@ -282,5 +285,6 @@ function calcSummaryInterest(movements, rate) {
     .filter(mov => mov > 0)
     .map(deposit => (deposit * rate) / 100)
     .filter(interest => interest >= 1)
-    .reduce((acc, interest) => acc + interest, 0);
+    .reduce((acc, interest) => acc + interest, 0)
+    .toFixed(2);
 } // end calcSummaryInterest

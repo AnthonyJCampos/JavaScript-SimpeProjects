@@ -14,12 +14,12 @@ const account1 = {
   movementsDates: [
     '2019-11-18T21:31:17.178Z',
     '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2020-04-01T10:17:24.185Z',
-    '2020-05-08T14:11:59.604Z',
-    '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2021-01-28T09:15:04.904Z',
+    '2021-04-01T10:17:24.185Z',
+    '2021-05-08T14:11:59.604Z',
+    '2022-05-27T17:01:17.194Z',
+    '2022-07-11T23:36:17.929Z',
+    '2022-11-15T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -316,6 +316,29 @@ function updateDisplay(currentAccount) {
   );
 } // end updateDisplay
 
+function formatMovementDate(date) {
+  const calcDaysPassed = (date1, date2) =>
+    Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+
+  const daysPassed = calcDaysPassed(new Date(), date);
+
+  let result;
+  if (daysPassed === 0) {
+    result = 'Today';
+  } else if (daysPassed === 1) {
+    result = 'Yesterday';
+  } else if (daysPassed <= 7) {
+    result = `${daysPassed} days ago`;
+  } else {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    result = `${month}/${day}/${year}`;
+  } // end if
+
+  return result;
+} // end formatMovementDate
+
 function displayMovements(account, containerMovements, sort = false) {
   containerMovements.innerHTML = '';
 
@@ -325,11 +348,7 @@ function displayMovements(account, containerMovements, sort = false) {
 
   movs.forEach(function (mov, index) {
     const date = new Date(account.movementsDates[index]);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const displayDate = `${month}/${day}/${year}`;
-
+    const displayDate = formatMovementDate(date);
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `<div class="movements__row">

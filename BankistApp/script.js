@@ -116,15 +116,6 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // current user that is displayed in the app
 let currentAccount;
 
-// As of time in the app
-const now = new Date();
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const day = String(now.getDate()).padStart(2, '0');
-const year = now.getFullYear();
-const hour = now.getHours();
-const min = String(now.getMinutes()).padStart(2, '0');
-labelDate.textContent = `${month}/${day}/${year}, ${hour}:${min}`;
-
 // day/month/year
 
 /** create user names */
@@ -153,6 +144,17 @@ function calcBalance(account) {
 createUsernames(accounts);
 createBalances(accounts);
 
+function formatDate(date) {
+  const option = {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  };
+
+  return new Intl.DateTimeFormat(currentAccount.locale, option).format(date);
+} // formatDate
 /** EVENT HANDLERS  */
 
 btnLogin.addEventListener('click', function (event, targetAcc) {
@@ -168,6 +170,11 @@ btnLogin.addEventListener('click', function (event, targetAcc) {
       .split(' ')
       .at(0)}`;
     containerApp.style.opacity = 100;
+
+    // As of time in the app
+
+    labelDate.textContent = formatDate(new Date());
+    calcBalance(currentAccount);
     updateDisplay(currentAccount);
   } // end if
 }); // end login button event
@@ -316,7 +323,7 @@ function updateDisplay(currentAccount) {
   );
 } // end updateDisplay
 
-function formatMovementDate(date) {
+function formatMovementDate(date, local) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
@@ -330,10 +337,7 @@ function formatMovementDate(date) {
   } else if (daysPassed <= 7) {
     result = `${daysPassed} days ago`;
   } else {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    result = `${month}/${day}/${year}`;
+    result = new Intl.DateTimeFormat(local).format(date);
   } // end if
 
   return result;
@@ -348,7 +352,7 @@ function displayMovements(account, containerMovements, sort = false) {
 
   movs.forEach(function (mov, index) {
     const date = new Date(account.movementsDates[index]);
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, account.local);
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `<div class="movements__row">

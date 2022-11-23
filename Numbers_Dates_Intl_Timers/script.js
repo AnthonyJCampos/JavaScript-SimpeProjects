@@ -150,7 +150,7 @@ console.log(days1);
 // Experimenting with internalization API
 const today1 = new Date();
 
-const options = {
+const options1 = {
   hour: 'numeric',
   minute: 'numeric',
   day: 'numeric',
@@ -162,16 +162,31 @@ const options = {
 // You can defined the local fomatting manually using something like
 // locale: 'en-US'
 // or use the browser such as:
-const dateFormatedManual = new Intl.DateTimeFormat('pt-PT', options).format(
+const dateFormatedManual = new Intl.DateTimeFormat('pt-PT', options1).format(
   today1
 );
 
 const locale = navigator.language;
 console.log(locale);
-const dateFormatedAuto = new Intl.DateTimeFormat(locale, options).format(
+const dateFormatedAuto = new Intl.DateTimeFormat(locale, options1).format(
   today1
 );
 
 console.log(`Formated Date: ${dateFormatedManual}`);
 
 console.log(`Formated Date: ${dateFormatedAuto}`);
+
+/** Internationalizing Numbers Intl */
+
+const options2 = {
+  style: 'unit',
+  unit: 'mile-per-hour',
+};
+
+const num = 45374831.45;
+console.log(
+  'Current Browser',
+  new Intl.NumberFormat(locale, options2).format(num)
+);
+console.log('Germany: ', new Intl.NumberFormat('de-DE', options2).format(num));
+console.log('Syria: ', new Intl.NumberFormat('ar-SY', options2).format(num));

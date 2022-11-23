@@ -249,15 +249,17 @@ btnLoan.addEventListener('click', function (event) {
     const flag = currentAccount.movements.some(mov => mov > amount * 1.1);
     // if true take out loan
     if (flag) {
-      // add movement
-      currentAccount.movements.push(amount);
+      setTimeout(function () {
+        // add movement
+        currentAccount.movements.push(amount);
 
-      // add loan date
-      currentAccount.movementsDates.push(new Date().toISOString());
+        // add loan date
+        currentAccount.movementsDates.push(new Date().toISOString());
 
-      // update UI
-      calcBalance(currentAccount);
-      updateDisplay(currentAccount);
+        // update UI
+        calcBalance(currentAccount);
+        updateDisplay(currentAccount);
+      }, 2500);
     } // end if
   } // end if
 

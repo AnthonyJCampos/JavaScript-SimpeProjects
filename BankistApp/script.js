@@ -323,7 +323,7 @@ function updateDisplay(currentAccount) {
   );
 } // end updateDisplay
 
-function formatMovementDate(date, local) {
+function formatMovementDate(date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
 
@@ -337,11 +337,20 @@ function formatMovementDate(date, local) {
   } else if (daysPassed <= 7) {
     result = `${daysPassed} days ago`;
   } else {
-    result = new Intl.DateTimeFormat(local).format(date);
+    result = new Intl.DateTimeFormat(locale).format(date);
   } // end if
 
   return result;
 } // end formatMovementDate
+
+function formatMovementCurrency(num, locale, currency) {
+  const options = {
+    style: 'currency',
+    currency: currency,
+  };
+
+  return new Intl.NumberFormat(locale, options).format(num);
+} // end formatMovementCurrency
 
 function displayMovements(account, containerMovements, sort = false) {
   containerMovements.innerHTML = '';
@@ -352,8 +361,9 @@ function displayMovements(account, containerMovements, sort = false) {
 
   movs.forEach(function (mov, index) {
     const date = new Date(account.movementsDates[index]);
-    const displayDate = formatMovementDate(date, account.local);
+    const displayDate = formatMovementDate(date, account.locale);
     const type = mov > 0 ? 'deposit' : 'withdrawal';
+    const num = formatMovementCurrency(mov, account.locale, account.currency);
 
     const html = `<div class="movements__row">
        <div class="movements__type movements__type--${type}">${
@@ -361,7 +371,7 @@ function displayMovements(account, containerMovements, sort = false) {
     } ${type}
        </div>
            <div class="movements__date">${displayDate}</div>
-           <div class="movements__value">${mov.toFixed(2)}$</div>
+           <div class="movements__value">${num}</div>
          </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -369,16 +379,32 @@ function displayMovements(account, containerMovements, sort = false) {
 } // end displayMovements
 
 function updateBalanceElement(account, element) {
-  element.textContent = `${account.balance.toFixed(2)} USD`;
+  element.textContent = formatMovementCurrency(
+    account.balance,
+    account.locale,
+    account.currency
+  );
 } // end updateBalance
 
 function updateDisplaySummary(account, elementIn, elementOut, elementInterest) {
-  elementIn.textContent = `${calcSummaryIn(account.movements)}$`;
-  elementOut.textContent = `${calcSummaryOut(account.movements)}$`;
-  elementInterest.textContent = `${calcSummaryInterest(
-    account.movements,
-    account.interestRate
-  )}$`;
+  const accLocale = account.locale;
+  const accCurrency = account.currency;
+
+  elementIn.textContent = formatMovementCurrency(
+    calcSummaryIn(account.movements),
+    accLocale,
+    accCurrency
+  );
+  elementOut.textContent = formatMovementCurrency(
+    calcSummaryIn(account.movements),
+    accLocale,
+    accCurrency
+  );
+  elementInterest.textContent = formatMovementCurrency(
+    calcSummaryInterest(account.movements, account.interestRate),
+    accLocale,
+    accCurrency
+  );
 } // end updateDisplaySummary
 
 function calcSummaryIn(movements) {

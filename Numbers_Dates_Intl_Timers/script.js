@@ -144,3 +144,21 @@ const calcDaysPassed = (date1, date2) =>
 
 const days1 = calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 24));
 console.log(days1);
+
+//
+
+// Experimenting with internalization API
+const today1 = new Date();
+
+const options = {
+  hour: 'numeric',
+  minute: 'numeric',
+  day: 'numeric',
+  month: 'long', // November
+  year: '2-digit', // 22
+  weekday: 'long', // Monday
+};
+
+const dateFormated = new Intl.DateTimeFormat('en-US', options).format(today1);
+
+console.log(`Formated Date: ${dateFormated}`);

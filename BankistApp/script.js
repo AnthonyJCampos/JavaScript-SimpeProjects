@@ -115,6 +115,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 // current user that is displayed in the app
 let currentAccount;
+let timer;
 
 // day/month/year
 
@@ -165,6 +166,12 @@ btnLogin.addEventListener('click', function (event, targetAcc) {
 
   if (currentAccount !== undefined) {
     inputLoginPin.blur();
+
+    if (timer) {
+      clearInterval(timer);
+    } // end if
+
+    timer = startLogOutTimer();
     // Display UI and message
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner
       .split(' ')
@@ -203,6 +210,36 @@ function resetLoginFields() {
   inputLoginPin.value = '';
 } // end resetLoginFields
 
+function startLogOutTimer() {
+  function tick() {
+    // in each call, print the remaining time to the UI
+    labelTimer.textContent = timeConvert(time);
+
+    // when 0 secs, stop timer and log out user
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    } // end if
+
+    // decrease 1s
+    time--;
+  }
+
+  // set time to 5 mins
+  let time = 300;
+  // call the timer every second
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+} // end startLogOutTimer
+
+function timeConvert(num) {
+  const min = Math.floor(num / 60);
+  const sec = num % 60;
+  return `${min}:${String(sec).padStart(2, 0)}`;
+} // end time_convert
+
 /** TRANSFER METHODS */
 
 btnTransfer.addEventListener('click', function (event) {
@@ -229,6 +266,10 @@ btnTransfer.addEventListener('click', function (event) {
       // update balance and UI
       calcBalance(currentAccount);
       updateDisplay(currentAccount);
+
+      // reset timer
+      clearInterval(timer);
+      timer = startLogOutTimer();
     } // end if
   } // end if
   resetTransferFields();
@@ -259,6 +300,9 @@ btnLoan.addEventListener('click', function (event) {
         // update UI
         calcBalance(currentAccount);
         updateDisplay(currentAccount);
+        // reset timer
+        clearInterval(timer);
+        timer = startLogOutTimer();
       }, 2500);
     } // end if
   } // end if

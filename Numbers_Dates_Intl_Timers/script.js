@@ -159,6 +159,19 @@ const options = {
   weekday: 'long', // Monday
 };
 
-const dateFormated = new Intl.DateTimeFormat('en-US', options).format(today1);
+// You can defined the local fomatting manually using something like
+// locale: 'en-US'
+// or use the browser such as:
+const dateFormatedManual = new Intl.DateTimeFormat('pt-PT', options).format(
+  today1
+);
 
-console.log(`Formated Date: ${dateFormated}`);
+const locale = navigator.language;
+console.log(locale);
+const dateFormatedAuto = new Intl.DateTimeFormat(locale, options).format(
+  today1
+);
+
+console.log(`Formated Date: ${dateFormatedManual}`);
+
+console.log(`Formated Date: ${dateFormatedAuto}`);

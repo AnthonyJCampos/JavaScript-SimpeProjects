@@ -1,31 +1,78 @@
 'use strict';
 
-///////////////////////////////////////
-// Modal window
+/** Webpage Elements */
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 
-const openModal = function () {
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+const navBar = document.querySelector('.nav__links');
+
+/** Modal Window Functions */
+
+const openModal = function (event) {
+  // by defualt it moves to the top of the page
+  event.preventDefault();
   modal.classList.remove('hidden');
   overlay.classList.remove('hidden');
-};
+}; // end openModal
 
 const closeModal = function () {
   modal.classList.add('hidden');
   overlay.classList.add('hidden');
-};
+}; // end closeModal
 
-for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener('click', openModal);
+btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
+});
+
+/**  Button / Smooth Scrolling  */
+
+// Events
+
+btnScrollTo.addEventListener('click', function (event) {
+  const s1coords = section1.getBoundingClientRect();
+
+  // Scrolling
+
+  // old school way
+  //   window.scrollTo({
+  //     left: s1coords.left + window.pageXOffset,
+  //     top: s1coords.top + window.pageYOffset,
+  //     behavior: 'smooth',
+  //   });
+
+  // modern way
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+/** Page Navigation */
+
+// using event delegation
+// 1. Add event listener to common parent element
+// 2. Determine what element originated the event
+
+navBar.addEventListener('click', function (event) {
+  // use event target
+  // use this to figure out which element this event originated from
+  event.preventDefault();
+  // Matching Strategy
+  if (
+    event.target.classList.contains('nav__link') &&
+    !event.target.classList.contains('nav__link--btn')
+  ) {
+    const id = event.target.getAttribute('href');
+    document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+  } // end if
 });

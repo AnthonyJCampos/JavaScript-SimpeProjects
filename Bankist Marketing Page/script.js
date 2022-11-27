@@ -73,6 +73,44 @@ navBar.addEventListener('click', function (event) {
     !event.target.classList.contains('nav__link--btn')
   ) {
     const id = event.target.getAttribute('href');
+    // look into why this is not always working
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
   } // end if
+});
+
+/** Tabbed component */
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// more event delegation
+
+tabsContainer.addEventListener('click', function (event) {
+  // Matching Strategy
+  // need to select parent element, use the closest method
+  const clicked = event.target.closest('.operations__tab');
+
+  // ignore clicks not on button, Guard clause
+  if (!clicked) {
+    return;
+  } // end if
+
+  // first remove active from all, then add to the clicked tab
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  // remove content
+  tabsContent.forEach(content =>
+    content.classList.remove('operations__content--active')
+  );
+
+  // Active Tab
+  clicked.classList.add('operations__tab--active');
+
+  // Activated content area
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+
+  // actibe
+  console.log(clicked);
 });

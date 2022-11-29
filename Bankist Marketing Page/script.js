@@ -140,3 +140,16 @@ const handleHover = function (event) {
 nav.addEventListener('mouseover', handleHover.bind(0.5));
 
 nav.addEventListener('mouseout', handleHover.bind(1));
+
+// Sticky Nav: Intersection Observer API
+const initialS1Coords = section1.getBoundingClientRect();
+
+/* bad for perforamnce 
+window.addEventListener('scroll', function (event) {
+  if (this.window.scrollY > initialS1Coords.top) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+});
+*/
